@@ -1,5 +1,7 @@
+'use client';
 import { CalendarCheck } from 'lucide-react';
-import TaskList from '../features/tasks/components/TaskList';
+import TaskList from '../features/task/components/TaskList';
+import { Providers } from './providers';
 
 export default function Home() {
   return (
@@ -12,7 +14,9 @@ export default function Home() {
           To do list app
         </h1>
         <div className="flex flex-col gap-8 bg-[#3e3341] rounded-xl shadow-md min-w-[320px] p-6">
-          <TaskList />
+          <Providers>
+            <TaskList />
+          </Providers>
         </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center"></footer>
