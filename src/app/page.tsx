@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       <main className="flex flex-col justify-center items-center min-h-screen gap-8">
-        <h1 className="flex flex-col items-center justify-center gap-4 mb-2">
+        <h1 className="flex flex-col items-center justify-center gap-4 mb-4">
           <span className="p-3 rounded-full bg-font text-[#3e3341]">
             <CalendarCheck />
           </span>
