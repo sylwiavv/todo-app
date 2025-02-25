@@ -16,34 +16,30 @@ import { Input } from '../../../shared/components/ui/input';
 import { ITask } from '../../../shared/types/taskTypes';
 import { useEditTask } from '../hooks/useEditTask';
 import { TaskSchema } from '../schemas';
+import { useTasksStore } from '../store/taskStore';
 
-const TaskEditForm = ({
-  task,
-  setEditDialogOpen,
-}: {
-  task: ITask;
-  setEditDialogOpen: (open: boolean) => void;
-}) => {
+const TaskEditForm = () => {
   const { mutate: editTask, isPending, isError } = useEditTask();
+
+  const { currentTask, setCurrentTask } = useTasksStore();
 
   const form = useForm<z.infer<typeof TaskSchema>>({
     resolver: zodResolver(TaskSchema),
     defaultValues: {
-      title: task.title,
-      description: task.description,
+      title: currentTask?.title,
+      description: currentTask?.description,
     },
   });
 
   const {
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = form;
 
   const onSubmit = ({ title, description }: z.infer<typeof TaskSchema>) => {
     const updatedTask: ITask = {
-      id: task.id,
-      createdAt: task.createdAt,
-      completed: task.completed,
-
+      id,
+      createdAt,
+      completed,
       title,
       description,
     };
@@ -51,10 +47,18 @@ const TaskEditForm = ({
     editTask(updatedTask, {
       onSuccess: () => {
         form.reset();
-        setEditDialogOpen(false);
+        setCurrentTask(null);
       },
     });
   };
+
+  if (!currentTask) return;
+
+  const { id, createdAt, completed } = currentTask;
+
+  if (isSubmitSuccessful) {
+    setCurrentTask(null);
+  }
 
   if (isError) {
     return <p>An error occurred. Please refresh the page.</p>;

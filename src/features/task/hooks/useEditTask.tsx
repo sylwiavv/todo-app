@@ -4,7 +4,7 @@ import { BACKEND_BASE_URL, ITask } from '../../../shared';
 export const useEditTask = () => {
   const queryClient = useQueryClient();
 
-  const editTask = async (task: ITask) => {
+  const editTask = async (task: ITask): Promise<ITask> => {
     if (!BACKEND_BASE_URL) {
       throw new Error('BACKEND_BASE_URL is not defined');
     }
@@ -28,7 +28,7 @@ export const useEditTask = () => {
     return response.json();
   };
 
-  return useMutation({
+  return useMutation<ITask, Error, ITask>({
     mutationFn: editTask,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });

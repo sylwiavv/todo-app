@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { ITask } from '../../../shared';
 import { Button } from '../../../shared/components/ui/button';
 import {
   FormField,
@@ -17,47 +18,47 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../../shared/components/ui/select';
-import { ITask } from '../../../shared/types/taskTypes';
 import { useSetTaskAsCompleted } from '../hooks/useSetTaskAsComplited';
 import { TaskCompletedSchema } from '../schemas';
+import { useTasksStore } from '../store/taskStore';
 import Task from './Task';
 
-const TaskEditForm = ({
-  task,
-  setCompletedDialogOpen,
-}: {
-  task: ITask;
-  setCompletedDialogOpen: (open: boolean) => void;
-}) => {
+const TaskEditForm = () => {
   const { mutate: setTaskAsCompleted, isPending } = useSetTaskAsCompleted();
 
-  const { title, description, createdAt, completed } = task;
+  const { currentTask, setCurrentTask } = useTasksStore();
+
   const form = useForm<z.infer<typeof TaskCompletedSchema>>({
     resolver: zodResolver(TaskCompletedSchema),
     defaultValues: {
-      completed: task.completed,
+      completed: currentTask?.completed,
     },
   });
 
   const {
-    formState: { errors },
+    formState: { isSubmitSuccessful },
   } = form;
 
   const onSubmit = ({ completed }: z.infer<typeof TaskCompletedSchema>) => {
     const updatedTask: ITask = {
-      ...task,
+      ...currentTask,
       completed,
     };
-
-    console.log(completed, 'completed');
 
     setTaskAsCompleted(updatedTask, {
       onSuccess: () => {
         form.reset();
-        setCompletedDialogOpen(false);
       },
     });
   };
+
+  if (!currentTask) return;
+
+  const { title, description, createdAt } = currentTask;
+
+  if (isSubmitSuccessful) {
+    setCurrentTask(null);
+  }
 
   return (
     <>

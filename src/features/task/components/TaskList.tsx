@@ -1,9 +1,11 @@
-import { useTasks } from '../../../entities/task/api';
 import { ITask } from '../../../shared/types/taskTypes';
+import { useTasks } from '../hooks/useGetTasks';
+import { useTasksStore } from '../store/taskStore';
 import TaskItem from './TaskItem';
 
 const TaskList = () => {
-  const { data: tasks, isPending, isError } = useTasks();
+  const { isPending, isError } = useTasks();
+  const { tasks } = useTasksStore();
 
   if (isPending) return <p>Loading tasks...</p>;
 

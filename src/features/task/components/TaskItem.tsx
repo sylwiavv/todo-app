@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ITask } from '../../../shared';
 import DialogWrapper from '../../../shared/components/DialogWrapper/DialogWrapper';
 import { TooltipWrapper } from '../../../shared/components/TooltipWrapper/TooltipWrapper';
+import { useTasksStore } from '../store/taskStore';
 import CompletedTaskForm from './CompletedTaskForm';
 import DeleteTaskForm from './DeleteTaskForm';
 import TaskEditForm from './EditTaskForm';
@@ -15,6 +16,8 @@ const TaskItem = (task: ITask) => {
   const [completedDialogOpen, setCompletedDialogOpen] = useState(false);
 
   const { id, title, description, createdAt, completed } = task;
+
+  const { currentTask, setCurrentTask } = useTasksStore();
 
   return (
     <div className="bg-task rounded-xl p-2 sm:p-4">
@@ -31,14 +34,20 @@ const TaskItem = (task: ITask) => {
             {completed ? (
               <div
                 className="text-green-500 flex gap-0.15 items-center mt-2"
-                onClick={() => setCompletedDialogOpen(true)}
+                onClick={() => {
+                  setCurrentTask(task);
+                  setCompletedDialogOpen(true);
+                }}
               >
                 <SquareCheckBig className="h-[14px]" /> completed
               </div>
             ) : (
               <button
                 className="mt-4 hover:text-green-500 transition-colors"
-                onClick={() => setCompletedDialogOpen(true)}
+                onClick={() => {
+                  setCurrentTask(task);
+                  setCompletedDialogOpen(true);
+                }}
               >
                 Set as completed
               </button>
@@ -49,51 +58,46 @@ const TaskItem = (task: ITask) => {
             <TooltipWrapper
               tooltipTrigger={<Pencil className="h-[18px]" />}
               tooltipContent="Edit Task"
-              onClick={() => setEditDialogOpen(true)}
+              onClick={() => {
+                setCurrentTask(task);
+                setEditDialogOpen(true);
+              }}
             />
 
             <TooltipWrapper
               tooltipTrigger={<Trash2 className="h-[18px]" />}
               tooltipTriggerClassName="text-red-300 text-sm"
               tooltipContent="Delete task"
-              onClick={() => setDeleteDialogOpen(true)}
+              onClick={() => {
+                setCurrentTask(task);
+                setDeleteDialogOpen(true);
+              }}
             />
 
-            <DialogWrapper
-              children={
-                <DeleteTaskForm
-                  id={id}
-                  setDeleteDialogOpen={setDeleteDialogOpen}
+            {currentTask && (
+              <>
+                <DialogWrapper
+                  children={<DeleteTaskForm />}
+                  dialogTitle="Delete task"
+                  open={deleteDialogOpen}
+                  setOpen={setDeleteDialogOpen}
                 />
-              }
-              dialogTitle="Delete task"
-              open={deleteDialogOpen}
-              setOpen={setDeleteDialogOpen}
-            />
 
-            <DialogWrapper
-              children={
-                <TaskEditForm
-                  task={task}
-                  setEditDialogOpen={setEditDialogOpen}
+                <DialogWrapper
+                  children={<TaskEditForm />}
+                  dialogTitle="Edit task"
+                  open={editDialogOpen}
+                  setOpen={setEditDialogOpen}
                 />
-              }
-              dialogTitle="Edit task"
-              open={editDialogOpen}
-              setOpen={setEditDialogOpen}
-            />
 
-            <DialogWrapper
-              children={
-                <CompletedTaskForm
-                  task={task}
-                  setCompletedDialogOpen={setCompletedDialogOpen}
+                <DialogWrapper
+                  children={<CompletedTaskForm />}
+                  dialogTitle="Edit task"
+                  open={completedDialogOpen}
+                  setOpen={setCompletedDialogOpen}
                 />
-              }
-              dialogTitle="Edit task"
-              open={completedDialogOpen}
-              setOpen={setCompletedDialogOpen}
-            />
+              </>
+            )}
           </div>
         </div>
       </div>

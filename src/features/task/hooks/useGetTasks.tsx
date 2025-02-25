@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { BACKEND_BASE_URL } from '../../shared';
+import { BACKEND_BASE_URL } from '../../../shared';
+import { ITask } from '../../../shared/types/taskTypes';
+import { useTasksStore } from '../store/taskStore';
 
-export const fetchTasks = async () => {
+export const fetchTasks = async (): Promise<ITask[]> => {
   if (!BACKEND_BASE_URL) {
     throw new Error('BACKEND_BASE_URL is not defined');
   }
@@ -16,8 +18,14 @@ export const fetchTasks = async () => {
 };
 
 export const useTasks = () => {
+  const { setTasks } = useTasksStore();
+
   return useQuery({
     queryKey: ['tasks'],
-    queryFn: fetchTasks,
+    queryFn: async () => {
+      const tasks = await fetchTasks();
+      setTasks(tasks);
+      return tasks;
+    },
   });
 };

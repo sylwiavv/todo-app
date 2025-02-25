@@ -1,18 +1,18 @@
+'use client';
 import { Button } from '../../../shared/components/ui/button';
 import { useDeleteTask } from '../hooks/useDeleteTask';
+import { useTasksStore } from '../store/taskStore';
 
-interface IDeleteTaskFormProps {
-  id: number;
-  setDeleteDialogOpen: (open: boolean) => void;
-}
-
-const DeleteTaskForm = ({ id, setDeleteDialogOpen }: IDeleteTaskFormProps) => {
+const DeleteTaskForm = () => {
+  const { currentTask, setCurrentTask } = useTasksStore();
   const { mutate: deleteTask, isPending, isError } = useDeleteTask();
+
+  if (!currentTask) return;
+
+  const { id } = currentTask;
 
   const handleDeleteTask = () => {
     deleteTask(id);
-
-    setDeleteDialogOpen(false);
   };
 
   if (isError) {
@@ -26,7 +26,7 @@ const DeleteTaskForm = ({ id, setDeleteDialogOpen }: IDeleteTaskFormProps) => {
         <Button disabled={isPending} variant="ghost" onClick={handleDeleteTask}>
           Yes
         </Button>
-        <Button disabled={isPending} onClick={() => setDeleteDialogOpen(false)}>
+        <Button disabled={isPending} onClick={() => setCurrentTask(null)}>
           No
         </Button>
       </div>
