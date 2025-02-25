@@ -38,7 +38,7 @@ const Home = () => {
               open={open}
               setOpen={setOpen}
               dialogTitle="Add task"
-              children={<TaskAddForm />}
+              children={<TaskAddForm setOpen={setOpen} />}
             />
           </Providers>
         </div>

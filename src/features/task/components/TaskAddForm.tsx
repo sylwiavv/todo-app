@@ -1,55 +1,95 @@
-import { Label } from '@radix-ui/react-label';
-import { useState } from 'react';
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
 import { Button } from '../../../shared/components/ui/button';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '../../../shared/components/ui/form';
 import { Input } from '../../../shared/components/ui/input';
 import { ITask } from '../../../shared/types/taskTypes';
 import { useAddTask } from '../hooks/useAddTask';
+import { TaskSchema } from '../schemas';
 import { generateUniqueId } from '../utils/utils';
 
-const TaskAddForm = () => {
-  const [task, setTask] = useState<ITask | Partial<ITask>>();
-
+const TaskAddForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
   const { mutate: addTask, isPending } = useAddTask();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    addTask(task, {
+  const form = useForm<z.infer<typeof TaskSchema>>({
+    resolver: zodResolver(TaskSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+    },
+  });
+
+  const {
+    formState: { errors },
+  } = form;
+
+  const onSubmit = (data: z.infer<typeof TaskSchema>) => {
+    const newTask: ITask = {
+      id: generateUniqueId(),
+      title: data.title,
+      description: data.description,
+      createdAt: new Date(),
+      completed: false,
+    };
+
+    addTask(newTask, {
       onSuccess: () => {
-        setTask({
-          id: generateUniqueId(),
-          title: '',
-          description: '',
-          createdAt: new Date(),
-          completed: false,
-        });
+        form.reset();
         setOpen(false);
       },
     });
   };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 w-full">
-      <div>
-        <Label htmlFor="title">Title</Label>
-        <Input
-          id="title"
-          value={task?.title || ''}
-          onChange={(e) => setTask({ ...task, title: e.target.value })}
-          required
+    <>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter task title" {...field} />
+              </FormControl>
+              {errors.title && (
+                <FormMessage>{errors.title.message}</FormMessage>
+              )}
+            </FormItem>
+          )}
         />
-      </div>
-      <div>
-        <Label htmlFor="description">Description</Label>
-        <Input
-          id="description"
-          value={task?.description || ''}
-          onChange={(e) => setTask({ ...task, description: e.target.value })}
-          required
+
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter task description" {...field} />
+              </FormControl>
+              {errors.description && (
+                <FormMessage>{errors.description.message}</FormMessage>
+              )}
+            </FormItem>
+          )}
         />
-      </div>
-      <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending ? 'Adding...' : 'Add Task'}
-      </Button>
-    </form>
+
+        <Button type="submit" className="" disabled={isPending}>
+          {isPending ? 'Adding...' : 'Add Task'}
+        </Button>
+      </form>
+    </>
   );
 };
 
