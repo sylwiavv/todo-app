@@ -4,7 +4,7 @@ import { useState } from 'react';
 import TaskAddForm from '../features/task/components/TaskAddForm';
 import TaskList from '../features/task/components/TaskList';
 import DialogWrapper from '../shared/components/DialogWrapper/DialogWrapper';
-import { TooltipWrapper } from '../shared/components/TooltipWrapper/ index';
+import { Button } from '../shared/components/ui/button';
 import { Providers } from './providers';
 
 const Home = () => {
@@ -16,21 +16,22 @@ const Home = () => {
 
   return (
     <>
-      <main className="flex flex-col justify-center items-center min-h-screen gap-8 relative">
+      <main className="flex flex-col justify-center items-center min-h-screen gap-8 relative my-10">
         <h1 className="flex flex-col items-center justify-center gap-4 mb-4">
           <span className="p-3 rounded-full bg-font text-[#3e3341]">
             <CalendarCheck />
           </span>
           To do list app
         </h1>
-        <div className="flex flex-col gap-8 bg-[#3e3341] rounded-xl shadow-md min-w-[320px] p-6 ">
+        <div className="flex flex-col sm:gap-8 gap-2 bg-[#3e3341] rounded-xl shadow-md min-w-[320px] p-2 sm:p-6 max-w-[710px] ">
           <Providers>
-            <TooltipWrapper
-              tooltipContent="Add new task"
-              tooltipTrigger={<CirclePlus />}
-              tooltipTriggerClassName="text-[#3e3341] border-zinc-100 flex items-center gap-3 absolute bottom-8 right-8 bg-font rounded-full p-1"
+            <Button
+              className="fixed rounded-full right-2 bottom-2 sm:right-8 sm:bottom-8 bg-font text-[#3e3341] p-2 hover:bg-font/95"
               onClick={handleOpenAddTaskDialog}
-            />
+            >
+              <CirclePlus className="h-full" />
+              <p className="font-semibold pr-1">Add task</p>
+            </Button>
 
             <TaskList />
 

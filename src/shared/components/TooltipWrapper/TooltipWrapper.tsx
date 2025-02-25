@@ -1,10 +1,10 @@
+import { ReactNode } from 'react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@radix-ui/react-tooltip';
-import { ReactNode } from 'react';
+} from '../ui/tooltip';
 
 interface ITooltipWrapper {
   tooltipTrigger: ReactNode;

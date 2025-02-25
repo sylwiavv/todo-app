@@ -9,9 +9,9 @@ import {
 
 interface IDialogWrapperProps {
   open: boolean;
-  dialogTitle: string;
   setOpen: (open: boolean) => void;
   children: JSX.Element;
+  dialogTitle: string;
 }
 
 const DialogWrapper = ({

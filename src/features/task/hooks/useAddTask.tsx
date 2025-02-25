@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { BACKEND_BASE_URL } from '../../../shared/config';
+import { BACKEND_BASE_URL, HEADER_APPLICATION_JSON } from '../../../shared';
 import { ITask } from '../../../shared/types/taskTypes';
 
 export const addTask = async (task: ITask) => {
@@ -9,9 +9,7 @@ export const addTask = async (task: ITask) => {
 
   const response = await fetch(`${BACKEND_BASE_URL}/tasks`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { HEADER_APPLICATION_JSON },
     body: JSON.stringify(task),
   });
 

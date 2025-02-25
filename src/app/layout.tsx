@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import './globals.css';
 
-// Załaduj czcionkę Montserrat
 const montserrat = Montserrat({
   variable: '--font-montserrat',
   subsets: ['latin'],

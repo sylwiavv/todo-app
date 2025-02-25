@@ -3,7 +3,7 @@ import { ITask } from '../../../shared/types/taskTypes';
 import TaskItem from './TaskItem';
 
 const TaskList = () => {
-  const { data: tasks, isPending, isError, error } = useTasks();
+  const { data: tasks, isPending, isError } = useTasks();
 
   if (isPending) return <p>Loading tasks...</p>;
 

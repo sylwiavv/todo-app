@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { BACKEND_BASE_URL } from '../../shared/config';
+import { BACKEND_BASE_URL } from '../../shared';
 
 export const fetchTasks = async () => {
   if (!BACKEND_BASE_URL) {
