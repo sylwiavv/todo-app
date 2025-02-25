@@ -3,7 +3,7 @@ import { BACKEND_BASE_URL } from '../../shared/config';
 
 export const fetchTasks = async () => {
   if (!BACKEND_BASE_URL) {
-    throw new Error('Failed to fetch tasks');
+    throw new Error('BACKEND_BASE_URL is not defined');
   }
 
   const response = await fetch(`${BACKEND_BASE_URL}/tasks`);
@@ -11,9 +11,13 @@ export const fetchTasks = async () => {
   if (!response.ok) {
     throw new Error('Failed to fetch tasks');
   }
+
   return response.json();
 };
 
 export const useTasks = () => {
-  return useQuery({ queryKey: ['tasks'], queryFn: fetchTasks });
+  return useQuery({
+    queryKey: ['tasks'],
+    queryFn: fetchTasks,
+  });
 };

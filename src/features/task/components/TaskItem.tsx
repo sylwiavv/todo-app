@@ -26,7 +26,7 @@ const TaskItem = (task: ITask) => {
             )}
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 ml-2">
             <TooltipWrapper
               tooltipTrigger={<Pencil className="h-[18px]" />}
               tooltipContent="Edit Task"
