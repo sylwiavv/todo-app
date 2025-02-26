@@ -40,8 +40,9 @@ const Home = () => {
               setOpen={setOpen}
               dialogTitle="Add task"
               dialogDescription="Create a new task by providing the necessary details. Add a title, description."
-              children={<TaskAddForm setOpen={setOpen} />}
-            />
+            >
+              <TaskAddForm setOpen={setOpen} />
+            </DialogWrapper>
           </Providers>
         </div>
       </main>

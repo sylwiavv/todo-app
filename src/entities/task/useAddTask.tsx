@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { BACKEND_BASE_URL, HEADER_APPLICATION_JSON } from '../../../shared';
-import { ITask } from '../../../shared/types/taskTypes';
+import { BACKEND_BASE_URL, HEADER_APPLICATION_JSON } from '../../shared';
+import { ITask } from '../../shared/types/taskTypes';
 
 export const addTask = async (task: ITask) => {
   if (!BACKEND_BASE_URL) {

@@ -93,28 +93,31 @@ const TaskItem = (task: ITask) => {
             {currentTask && (
               <>
                 <DialogWrapper
-                  children={<DeleteTaskForm />}
                   dialogTitle="Delete task"
                   dialogDescription="Are you sure you want to delete this task? This action cannot be undone."
                   open={deleteDialogOpen}
                   setOpen={setDeleteDialogOpen}
-                />
+                >
+                  <DeleteTaskForm />
+                </DialogWrapper>
 
                 <DialogWrapper
-                  children={<TaskEditForm />}
                   dialogTitle="Edit task"
                   dialogDescription="Modify the details of your task."
                   open={editDialogOpen}
                   setOpen={setEditDialogOpen}
-                />
+                >
+                  <TaskEditForm />
+                </DialogWrapper>
 
                 <DialogWrapper
-                  children={<CompletedTaskForm />}
                   dialogTitle="Mark Task as Completed"
                   dialogDescription="Please select the state of your task."
                   open={completedDialogOpen}
                   setOpen={setCompletedDialogOpen}
-                />
+                >
+                  <CompletedTaskForm />
+                </DialogWrapper>
               </>
             )}
           </div>

@@ -1,9 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { useAddTask } from '../../../entities/task/useAddTask';
 import { Button } from '../../../shared/components/ui/button';
 import {
   FormControl,
@@ -14,7 +15,6 @@ import {
 } from '../../../shared/components/ui/form';
 import { Input } from '../../../shared/components/ui/input';
 import { ITask } from '../../../shared/types/taskTypes';
-import { useAddTask } from '../hooks/useAddTask';
 import { TaskSchema } from '../schemas';
 import { generateUniqueId } from '../utils/utils';
 
@@ -51,7 +51,7 @@ const TaskAddForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
   };
 
   return (
-    <>
+    <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
         <FormField
           control={form.control}
@@ -89,7 +89,7 @@ const TaskAddForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
           {isPending ? 'Adding...' : 'Add Task'}
         </Button>
       </form>
-    </>
+    </FormProvider>
   );
 };
 

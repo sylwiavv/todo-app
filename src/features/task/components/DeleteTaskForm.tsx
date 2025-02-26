@@ -1,18 +1,24 @@
 'use client';
+
+import { useDeleteTask } from '../../../entities/task/useDeleteTask';
 import { Button } from '../../../shared/components/ui/button';
-import { useDeleteTask } from '../hooks/useDeleteTask';
 import { useTasksStore } from '../store/taskStore';
 
 const DeleteTaskForm = () => {
   const { currentTask, setCurrentTask } = useTasksStore();
-  const { mutate: deleteTask, isPending, isError } = useDeleteTask();
+  const { mutateAsync: deleteTask, isPending, isError } = useDeleteTask();
 
-  if (!currentTask) return;
+  if (!currentTask) return null;
 
   const { id } = currentTask;
 
-  const handleDeleteTask = () => {
-    deleteTask(id);
+  const handleDeleteTask = async () => {
+    try {
+      await deleteTask(id);
+      setCurrentTask(null);
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
   };
 
   if (isError) {

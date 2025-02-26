@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { BACKEND_BASE_URL, ITask } from '../../../shared';
+import { BACKEND_BASE_URL, ITask } from '../../shared';
 
-export const useSetTaskAsCompleted = () => {
+export const useEditTask = () => {
   const queryClient = useQueryClient();
 
-  const setTaskAsCompleted = async (task: ITask) => {
+  const editTask = async (task: ITask): Promise<ITask> => {
     if (!BACKEND_BASE_URL) {
       throw new Error('BACKEND_BASE_URL is not defined');
     }
@@ -16,7 +16,8 @@ export const useSetTaskAsCompleted = () => {
       },
       body: JSON.stringify({
         ...task,
-        completed: task.completed,
+        title: task.title,
+        description: task.description,
       }),
     });
 
@@ -27,8 +28,8 @@ export const useSetTaskAsCompleted = () => {
     return response.json();
   };
 
-  return useMutation({
-    mutationFn: setTaskAsCompleted,
+  return useMutation<ITask, Error, ITask>({
+    mutationFn: editTask,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
