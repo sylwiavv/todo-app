@@ -1,6 +1,5 @@
-'use client';
-
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -24,8 +23,11 @@ import { useTasksStore } from '../store/taskStore';
 import Task from './Task';
 
 const TaskEditForm = () => {
-  const { mutate: setTaskAsCompleted, isPending } = useSetTaskAsCompleted();
-
+  const {
+    mutate: setTaskAsCompleted,
+    isPending,
+    isError,
+  } = useSetTaskAsCompleted();
   const { currentTask, setCurrentTask } = useTasksStore();
 
   const form = useForm<z.infer<typeof TaskCompletedSchema>>({
@@ -39,26 +41,34 @@ const TaskEditForm = () => {
     formState: { isSubmitSuccessful },
   } = form;
 
-  const onSubmit = ({ completed }: z.infer<typeof TaskCompletedSchema>) => {
-    const updatedTask: ITask = {
-      ...currentTask,
-      completed,
-    };
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      setCurrentTask(null);
+    }
+  }, [isSubmitSuccessful, setCurrentTask]);
 
-    setTaskAsCompleted(updatedTask, {
-      onSuccess: () => {
-        form.reset();
-      },
-    });
+  const onSubmit = ({ completed }: z.infer<typeof TaskCompletedSchema>) => {
+    if (currentTask) {
+      const updatedTask: ITask = {
+        ...currentTask,
+        completed,
+      };
+
+      setTaskAsCompleted(updatedTask, {
+        onSuccess: () => {
+          form.reset();
+        },
+      });
+    }
   };
 
-  if (!currentTask) return;
+  if (isError) {
+    return <p>An error occurred. Please refresh the page.</p>;
+  }
+
+  if (!currentTask) return null;
 
   const { title, description, createdAt } = currentTask;
-
-  if (isSubmitSuccessful) {
-    setCurrentTask(null);
-  }
 
   return (
     <>

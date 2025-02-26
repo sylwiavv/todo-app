@@ -18,9 +18,10 @@ import { useEditTask } from '../hooks/useEditTask';
 import { TaskSchema } from '../schemas';
 import { useTasksStore } from '../store/taskStore';
 
+import { useEffect } from 'react';
+
 const TaskEditForm = () => {
   const { mutate: editTask, isPending, isError } = useEditTask();
-
   const { currentTask, setCurrentTask } = useTasksStore();
 
   const form = useForm<z.infer<typeof TaskSchema>>({
@@ -35,11 +36,19 @@ const TaskEditForm = () => {
     formState: { errors, isSubmitSuccessful },
   } = form;
 
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      setCurrentTask(null);
+    }
+  }, [isSubmitSuccessful, setCurrentTask]);
+
   const onSubmit = ({ title, description }: z.infer<typeof TaskSchema>) => {
+    if (!currentTask) return;
+
     const updatedTask: ITask = {
-      id,
-      createdAt,
-      completed,
+      id: currentTask.id,
+      createdAt: currentTask.createdAt,
+      completed: currentTask.completed,
       title,
       description,
     };
@@ -47,18 +56,9 @@ const TaskEditForm = () => {
     editTask(updatedTask, {
       onSuccess: () => {
         form.reset();
-        setCurrentTask(null);
       },
     });
   };
-
-  if (!currentTask) return;
-
-  const { id, createdAt, completed } = currentTask;
-
-  if (isSubmitSuccessful) {
-    setCurrentTask(null);
-  }
 
   if (isError) {
     return <p>An error occurred. Please refresh the page.</p>;

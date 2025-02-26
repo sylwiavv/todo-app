@@ -1,8 +1,9 @@
-import { Circle, Pencil, SquareCheckBig, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { Circle, Pencil, Square, SquareCheckBig, Trash2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { ITask } from '../../../shared';
 import DialogWrapper from '../../../shared/components/DialogWrapper/DialogWrapper';
 import { TooltipWrapper } from '../../../shared/components/TooltipWrapper/TooltipWrapper';
+import { Button } from '../../../shared/components/ui/button';
 import { useTasksStore } from '../store/taskStore';
 import CompletedTaskForm from './CompletedTaskForm';
 import DeleteTaskForm from './DeleteTaskForm';
@@ -15,9 +16,24 @@ const TaskItem = (task: ITask) => {
 
   const [completedDialogOpen, setCompletedDialogOpen] = useState(false);
 
-  const { id, title, description, createdAt, completed } = task;
+  const { title, description, createdAt, completed } = task;
 
   const { currentTask, setCurrentTask } = useTasksStore();
+
+  useEffect(() => {
+    if (currentTask) return;
+    if (deleteDialogOpen) {
+      setDeleteDialogOpen(false);
+    }
+
+    if (editDialogOpen) {
+      setEditDialogOpen(false);
+    }
+
+    if (completedDialogOpen) {
+      setCompletedDialogOpen(false);
+    }
+  }, [currentTask]);
 
   return (
     <div className="bg-task rounded-xl p-2 sm:p-4">
@@ -32,25 +48,25 @@ const TaskItem = (task: ITask) => {
               createdAt={createdAt}
             />
             {completed ? (
-              <div
-                className="text-green-500 flex gap-0.15 items-center mt-2"
+              <Button
+                className="text-green-500 flex gap-0.15 items-center mt-4 rounded-sm"
                 onClick={() => {
                   setCurrentTask(task);
                   setCompletedDialogOpen(true);
                 }}
               >
-                <SquareCheckBig className="h-[14px]" /> completed
-              </div>
+                <SquareCheckBig className="h-[14px] mr-2" /> completed
+              </Button>
             ) : (
-              <button
-                className="mt-4 hover:text-green-500 transition-colors"
+              <Button
+                className="mt-4 text-blue-500 hover:text-green-500"
                 onClick={() => {
                   setCurrentTask(task);
                   setCompletedDialogOpen(true);
                 }}
               >
-                Set as completed
-              </button>
+                <Square className="h-[14px]" /> Set as completed
+              </Button>
             )}
           </div>
 
