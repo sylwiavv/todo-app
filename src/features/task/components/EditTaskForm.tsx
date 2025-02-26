@@ -40,7 +40,7 @@ const TaskEditForm = () => {
     if (isSubmitSuccessful) {
       setCurrentTask(null);
     }
-  }, [isSubmitSuccessful, setCurrentTask]);
+  }, [isSubmitSuccessful]);
 
   const onSubmit = ({ title, description }: z.infer<typeof TaskSchema>) => {
     if (!currentTask) return;

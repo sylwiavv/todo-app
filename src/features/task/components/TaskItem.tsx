@@ -11,28 +11,25 @@ import TaskEditForm from './EditTaskForm';
 import Task from './Task';
 
 const TaskItem = (task: ITask) => {
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
-
-  const [completedDialogOpen, setCompletedDialogOpen] = useState(false);
-
   const { title, description, createdAt, completed } = task;
-
   const { currentTask, setCurrentTask } = useTasksStore();
+
+  const [dialogOpen, setDialogOpen] = useState<null | IDialogType | boolean>(
+    null
+  );
+
+  type IDialogType = 'deleteTask' | 'editTask' | 'completeTask';
+
+  const handleDialogOpen = (dialogType: IDialogType) => {
+    if (dialogType) {
+      setCurrentTask(task);
+      setDialogOpen(dialogType);
+    }
+  };
 
   useEffect(() => {
     if (currentTask) return;
-    if (deleteDialogOpen) {
-      setDeleteDialogOpen(false);
-    }
-
-    if (editDialogOpen) {
-      setEditDialogOpen(false);
-    }
-
-    if (completedDialogOpen) {
-      setCompletedDialogOpen(false);
-    }
+    setDialogOpen(false);
   }, [currentTask]);
 
   return (
@@ -51,8 +48,7 @@ const TaskItem = (task: ITask) => {
               <Button
                 className="text-green-500 flex gap-0.15 items-center mt-4 rounded-sm"
                 onClick={() => {
-                  setCurrentTask(task);
-                  setCompletedDialogOpen(true);
+                  handleDialogOpen('completeTask');
                 }}
               >
                 <SquareCheckBig className="h-[14px] mr-2" /> completed
@@ -61,8 +57,7 @@ const TaskItem = (task: ITask) => {
               <Button
                 className="mt-4 text-blue-500 hover:text-green-500"
                 onClick={() => {
-                  setCurrentTask(task);
-                  setCompletedDialogOpen(true);
+                  handleDialogOpen('completeTask');
                 }}
               >
                 <Square className="h-[14px]" /> Set as completed
@@ -75,8 +70,7 @@ const TaskItem = (task: ITask) => {
               tooltipTrigger={<Pencil className="h-[18px]" />}
               tooltipContent="Edit Task"
               onClick={() => {
-                setCurrentTask(task);
-                setEditDialogOpen(true);
+                handleDialogOpen('editTask');
               }}
             />
 
@@ -85,8 +79,7 @@ const TaskItem = (task: ITask) => {
               tooltipTriggerClassName="text-red-300 text-sm"
               tooltipContent="Delete task"
               onClick={() => {
-                setCurrentTask(task);
-                setDeleteDialogOpen(true);
+                handleDialogOpen('deleteTask');
               }}
             />
 
@@ -95,8 +88,8 @@ const TaskItem = (task: ITask) => {
                 <DialogWrapper
                   dialogTitle="Delete task"
                   dialogDescription="Are you sure you want to delete this task? This action cannot be undone."
-                  open={deleteDialogOpen}
-                  setOpen={setDeleteDialogOpen}
+                  open={dialogOpen === 'deleteTask'}
+                  setOpen={setDialogOpen}
                 >
                   <DeleteTaskForm />
                 </DialogWrapper>
@@ -104,8 +97,8 @@ const TaskItem = (task: ITask) => {
                 <DialogWrapper
                   dialogTitle="Edit task"
                   dialogDescription="Modify the details of your task."
-                  open={editDialogOpen}
-                  setOpen={setEditDialogOpen}
+                  open={dialogOpen === 'editTask'}
+                  setOpen={setDialogOpen}
                 >
                   <TaskEditForm />
                 </DialogWrapper>
@@ -113,8 +106,8 @@ const TaskItem = (task: ITask) => {
                 <DialogWrapper
                   dialogTitle="Mark Task as Completed"
                   dialogDescription="Please select the state of your task."
-                  open={completedDialogOpen}
-                  setOpen={setCompletedDialogOpen}
+                  open={dialogOpen === 'completeTask'}
+                  setOpen={setDialogOpen}
                 >
                   <CompletedTaskForm />
                 </DialogWrapper>

@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { BACKEND_BASE_URL, HEADER_APPLICATION_JSON } from '../../shared';
+import { BACKEND_BASE_URL, HEADER_APPLICATION_JSON, ITask } from '../../shared';
 
 export const useDeleteTask = () => {
   const queryClient = useQueryClient();
 
-  const deleteTask = async (id: number) => {
+  const deleteTask = async (id: Pick<ITask, 'id'>) => {
     if (!BACKEND_BASE_URL) {
       throw new Error('BACKEND_BASE_URL is not defined');
     }
