@@ -2,6 +2,7 @@ import { JSX } from 'react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogOverlay,
   DialogTitle,
@@ -12,6 +13,7 @@ interface IDialogWrapperProps {
   setOpen: (open: boolean) => void;
   children: JSX.Element;
   dialogTitle: string;
+  dialogDescription: string;
 }
 
 const DialogWrapper = ({
@@ -19,6 +21,7 @@ const DialogWrapper = ({
   children,
   dialogTitle,
   setOpen,
+  dialogDescription,
 }: IDialogWrapperProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -27,6 +30,7 @@ const DialogWrapper = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{dialogTitle}</DialogTitle>
+          <DialogDescription>{dialogDescription}</DialogDescription>
         </DialogHeader>
 
         {children}

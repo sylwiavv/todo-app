@@ -95,6 +95,7 @@ const TaskItem = (task: ITask) => {
                 <DialogWrapper
                   children={<DeleteTaskForm />}
                   dialogTitle="Delete task"
+                  dialogDescription="Are you sure you want to delete this task? This action cannot be undone."
                   open={deleteDialogOpen}
                   setOpen={setDeleteDialogOpen}
                 />
@@ -102,13 +103,15 @@ const TaskItem = (task: ITask) => {
                 <DialogWrapper
                   children={<TaskEditForm />}
                   dialogTitle="Edit task"
+                  dialogDescription="Modify the details of your task."
                   open={editDialogOpen}
                   setOpen={setEditDialogOpen}
                 />
 
                 <DialogWrapper
                   children={<CompletedTaskForm />}
-                  dialogTitle="Edit task"
+                  dialogTitle="Mark Task as Completed"
+                  dialogDescription="Please select the state of your task."
                   open={completedDialogOpen}
                   setOpen={setCompletedDialogOpen}
                 />

@@ -20,16 +20,13 @@ const DeleteTaskForm = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <p>Are you sure to delete task?</p>
-      <div className="flex gap-2">
-        <Button disabled={isPending} variant="ghost" onClick={handleDeleteTask}>
-          Yes
-        </Button>
-        <Button disabled={isPending} onClick={() => setCurrentTask(null)}>
-          No
-        </Button>
-      </div>
+    <div className="flex gap-2">
+      <Button disabled={isPending} variant="ghost" onClick={handleDeleteTask}>
+        Yes
+      </Button>
+      <Button disabled={isPending} onClick={() => setCurrentTask(null)}>
+        No
+      </Button>
     </div>
   );
 };
