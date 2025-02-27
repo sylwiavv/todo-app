@@ -1,18 +1,14 @@
 'use client';
 import { CalendarCheck, CirclePlus } from 'lucide-react';
 import { useState } from 'react';
-import TaskAddForm from '../features/task/components/TaskAddForm';
+import TaskAddForm from '../features/task/components/AddTaskForm';
 import TaskList from '../features/task/components/TaskList';
 import DialogWrapper from '../shared/components/DialogWrapper/DialogWrapper';
 import { Button } from '../shared/components/ui/button';
 import { Providers } from './providers';
 
 const Home = () => {
-  const [open, setOpen] = useState(false);
-
-  const handleOpenAddTaskDialog = () => {
-    setOpen(true);
-  };
+  const [openAddTaskDialog, setOpenAddTaskDialog] = useState(false);
 
   return (
     <>
@@ -23,11 +19,12 @@ const Home = () => {
           </span>
           To do list app
         </h1>
+
         <div className="flex flex-col sm:gap-8 gap-2 bg-[#3e3341] rounded-xl shadow-md min-w-[320px] p-2 sm:p-6 max-w-[710px] ">
           <Providers>
             <Button
               className="fixed rounded-full right-2 bottom-2 sm:right-8 sm:bottom-8 bg-font text-[#3e3341] p-2 hover:bg-font/95"
-              onClick={handleOpenAddTaskDialog}
+              onClick={() => setOpenAddTaskDialog(true)}
             >
               <CirclePlus className="h-full" />
               <p className="font-semibold pr-1">Add task</p>
@@ -36,12 +33,12 @@ const Home = () => {
             <TaskList />
 
             <DialogWrapper
-              open={open}
-              setOpen={setOpen}
+              open={openAddTaskDialog}
+              setOpen={setOpenAddTaskDialog}
               dialogTitle="Add task"
               dialogDescription="Create a new task by providing the necessary details. Add a title, description."
             >
-              <TaskAddForm setOpen={setOpen} />
+              <TaskAddForm setOpen={setOpenAddTaskDialog} />
             </DialogWrapper>
           </Providers>
         </div>

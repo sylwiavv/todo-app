@@ -5,9 +5,10 @@ import DialogWrapper from '../../../shared/components/DialogWrapper/DialogWrappe
 import { TooltipWrapper } from '../../../shared/components/TooltipWrapper/TooltipWrapper';
 import { Button } from '../../../shared/components/ui/button';
 import { useTasksStore } from '../store/taskStore';
-import CompletedTaskForm from './CompletedTaskForm';
+import CompletedTaskForm from './CompleteTaskForm';
 import DeleteTaskForm from './DeleteTaskForm';
 import TaskEditForm from './EditTaskForm';
+
 import Task from './Task';
 
 const TaskItem = (task: ITask) => {
@@ -29,6 +30,7 @@ const TaskItem = (task: ITask) => {
 
   useEffect(() => {
     if (currentTask) return;
+
     setDialogOpen(false);
   }, [currentTask]);
 
@@ -83,36 +85,32 @@ const TaskItem = (task: ITask) => {
               }}
             />
 
-            {currentTask && (
-              <>
-                <DialogWrapper
-                  dialogTitle="Delete task"
-                  dialogDescription="Are you sure you want to delete this task? This action cannot be undone."
-                  open={dialogOpen === 'deleteTask'}
-                  setOpen={setDialogOpen}
-                >
-                  <DeleteTaskForm />
-                </DialogWrapper>
+            <DialogWrapper
+              dialogTitle="Delete task"
+              dialogDescription="Are you sure you want to delete this task? This action cannot be undone."
+              open={dialogOpen === 'deleteTask'}
+              setOpen={setDialogOpen}
+            >
+              <DeleteTaskForm />
+            </DialogWrapper>
 
-                <DialogWrapper
-                  dialogTitle="Edit task"
-                  dialogDescription="Modify the details of your task."
-                  open={dialogOpen === 'editTask'}
-                  setOpen={setDialogOpen}
-                >
-                  <TaskEditForm />
-                </DialogWrapper>
+            <DialogWrapper
+              dialogTitle="Edit task"
+              dialogDescription="Modify the details of your task."
+              open={dialogOpen === 'editTask'}
+              setOpen={setDialogOpen}
+            >
+              <TaskEditForm />
+            </DialogWrapper>
 
-                <DialogWrapper
-                  dialogTitle="Mark Task as Completed"
-                  dialogDescription="Please select the state of your task."
-                  open={dialogOpen === 'completeTask'}
-                  setOpen={setDialogOpen}
-                >
-                  <CompletedTaskForm />
-                </DialogWrapper>
-              </>
-            )}
+            <DialogWrapper
+              dialogTitle="Mark Task as Completed"
+              dialogDescription="Please select the state of your task."
+              open={dialogOpen === 'completeTask'}
+              setOpen={setDialogOpen}
+            >
+              <CompletedTaskForm />
+            </DialogWrapper>
           </div>
         </div>
       </div>

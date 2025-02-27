@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { useSetTaskAsCompleted } from '../../../entities/task/useSetTaskAsComplited';
+import { useSetTaskAsCompleted } from '../../../entities/task/useSetTaskAsComplite';
 import { ITask } from '../../../shared';
 import { Button } from '../../../shared/components/ui/button';
 import {
@@ -45,7 +45,7 @@ const TaskEditForm = () => {
     if (isSubmitSuccessful) {
       setCurrentTask(null);
     }
-  }, [isSubmitSuccessful, setCurrentTask]);
+  }, [isSubmitSuccessful]);
 
   const onSubmit = ({ completed }: z.infer<typeof TaskCompletedSchema>) => {
     if (currentTask) {
