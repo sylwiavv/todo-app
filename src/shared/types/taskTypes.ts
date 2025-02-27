@@ -5,3 +5,8 @@ export interface ITask {
   description: string;
   createdAt: Date;
 }
+
+export interface ITaskFormProps {
+  task: ITask;
+  setDialogOpen: (open: boolean) => void;
+}

@@ -1,16 +1,18 @@
-import type { Metadata } from 'next';
+'use client';
+
 import { Montserrat } from 'next/font/google';
 import './globals.css';
+import { Providers } from './providers';
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
   subsets: ['latin'],
 });
 
-export const metadata: Metadata = {
-  title: 'Todo App',
-  description: 'Simple app to organise your daily tasks',
-};
+// export const metadata: Metadata = {
+//   title: 'Todo App',
+//   description: 'Simple app to organise your daily tasks',
+// };
 
 export default function RootLayout({
   children,
@@ -19,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montserrat.variable} antialiased`}>{children}</body>
+      <body className={`${montserrat.variable} antialiased`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

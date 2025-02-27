@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -18,57 +17,44 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../../shared/components/ui/select';
+import { ITaskFormProps } from '../../../shared/types/taskTypes';
 import { TaskCompletedSchema } from '../schemas';
-import { useTasksStore } from '../store/taskStore';
 import Task from './Task';
 
-const TaskEditForm = () => {
+const CompleteTaskForm = ({ task, setDialogOpen }: ITaskFormProps) => {
+  const { title, description, createdAt, completed } = task;
+
   const {
     mutate: setTaskAsCompleted,
     isPending,
     isError,
   } = useSetTaskAsCompleted();
-  const { currentTask, setCurrentTask } = useTasksStore();
 
   const form = useForm<z.infer<typeof TaskCompletedSchema>>({
     resolver: zodResolver(TaskCompletedSchema),
     defaultValues: {
-      completed: currentTask?.completed,
+      completed,
     },
   });
 
-  const {
-    formState: { isSubmitSuccessful },
-  } = form;
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      setCurrentTask(null);
-    }
-  }, [isSubmitSuccessful]);
-
   const onSubmit = ({ completed }: z.infer<typeof TaskCompletedSchema>) => {
-    if (currentTask) {
-      const updatedTask: ITask = {
-        ...currentTask,
-        completed,
-      };
+    const updatedTask: ITask = {
+      ...task,
+      completed,
+    };
 
-      setTaskAsCompleted(updatedTask, {
-        onSuccess: () => {
-          form.reset();
-        },
-      });
-    }
+    setTaskAsCompleted(updatedTask, {
+      onSuccess: () => {
+        form.reset();
+        setDialogOpen(false);
+      },
+    });
   };
 
   if (isError) {
     return <p>An error occurred. Please refresh the page.</p>;
   }
 
-  if (!currentTask) return null;
-
-  const { title, description, createdAt } = currentTask;
   return (
     <>
       <Task title={title} description={description} createdAt={createdAt} />
@@ -108,4 +94,4 @@ const TaskEditForm = () => {
   );
 };
 
-export default TaskEditForm;
+export default CompleteTaskForm;

@@ -1,11 +1,10 @@
 'use client';
 import { CalendarCheck, CirclePlus } from 'lucide-react';
 import { useState } from 'react';
-import TaskAddForm from '../features/task/components/AddTaskForm';
+import AddTaskForm from '../features/task/components/AddTaskForm';
 import TaskList from '../features/task/components/TaskList';
 import DialogWrapper from '../shared/components/DialogWrapper/DialogWrapper';
 import { Button } from '../shared/components/ui/button';
-import { Providers } from './providers';
 
 const Home = () => {
   const [openAddTaskDialog, setOpenAddTaskDialog] = useState(false);
@@ -21,26 +20,24 @@ const Home = () => {
         </h1>
 
         <div className="flex flex-col sm:gap-8 gap-2 bg-[#3e3341] rounded-xl shadow-md min-w-[320px] p-2 sm:p-6 max-w-[710px] ">
-          <Providers>
-            <Button
-              className="fixed rounded-full right-2 bottom-2 sm:right-8 sm:bottom-8 bg-font text-[#3e3341] p-2 hover:bg-font/95"
-              onClick={() => setOpenAddTaskDialog(true)}
-            >
-              <CirclePlus className="h-full" />
-              <p className="font-semibold pr-1">Add task</p>
-            </Button>
+          <Button
+            className="fixed rounded-full right-2 bottom-2 sm:right-8 sm:bottom-8 bg-font text-[#3e3341] p-2 hover:bg-font/95"
+            onClick={() => setOpenAddTaskDialog(true)}
+          >
+            <CirclePlus className="h-full" />
+            <p className="font-semibold pr-1">Add task</p>
+          </Button>
 
-            <TaskList />
+          <TaskList />
 
-            <DialogWrapper
-              open={openAddTaskDialog}
-              setOpen={setOpenAddTaskDialog}
-              dialogTitle="Add task"
-              dialogDescription="Create a new task by providing the necessary details. Add a title, description."
-            >
-              <TaskAddForm setOpen={setOpenAddTaskDialog} />
-            </DialogWrapper>
-          </Providers>
+          <DialogWrapper
+            open={openAddTaskDialog}
+            setOpen={() => setOpenAddTaskDialog(false)}
+            dialogTitle="Add task"
+            dialogDescription="Create a new task by providing the necessary details. Add a title, description."
+          >
+            <AddTaskForm setOpen={setOpenAddTaskDialog} />
+          </DialogWrapper>
         </div>
       </main>
     </>

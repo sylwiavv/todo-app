@@ -18,7 +18,7 @@ import { ITask } from '../../../shared/types/taskTypes';
 import { TaskSchema } from '../schemas';
 import { generateUniqueId } from '../utils/utils';
 
-const TaskAddForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
+const AddTaskForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
   const { mutate: addTask, isPending } = useAddTask();
 
   const form = useForm<z.infer<typeof TaskSchema>>({
@@ -93,4 +93,4 @@ const TaskAddForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
   );
 };
 
-export default TaskAddForm;
+export default AddTaskForm;

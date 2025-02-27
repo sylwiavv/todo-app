@@ -14,41 +14,29 @@ import {
   FormMessage,
 } from '../../../shared/components/ui/form';
 import { Input } from '../../../shared/components/ui/input';
-import { ITask } from '../../../shared/types/taskTypes';
+import { ITask, ITaskFormProps } from '../../../shared/types/taskTypes';
 import { TaskSchema } from '../schemas';
-import { useTasksStore } from '../store/taskStore';
 
-import { useEffect } from 'react';
+const TaskEditForm = ({ task, setDialogOpen }: ITaskFormProps) => {
+  const { title, description } = task;
 
-const TaskEditForm = () => {
   const { mutate: editTask, isPending, isError } = useEditTask();
-  const { currentTask, setCurrentTask } = useTasksStore();
 
   const form = useForm<z.infer<typeof TaskSchema>>({
     resolver: zodResolver(TaskSchema),
     defaultValues: {
-      title: currentTask?.title,
-      description: currentTask?.description,
+      title,
+      description,
     },
   });
 
   const {
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = form;
 
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      setCurrentTask(null);
-    }
-  }, [isSubmitSuccessful]);
-
   const onSubmit = ({ title, description }: z.infer<typeof TaskSchema>) => {
-    if (!currentTask) return;
-
     const updatedTask: ITask = {
-      id: currentTask.id,
-      createdAt: currentTask.createdAt,
-      completed: currentTask.completed,
+      ...task,
       title,
       description,
     };
@@ -56,6 +44,7 @@ const TaskEditForm = () => {
     editTask(updatedTask, {
       onSuccess: () => {
         form.reset();
+        setDialogOpen(false);
       },
     });
   };

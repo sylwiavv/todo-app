@@ -20,8 +20,7 @@ export const useGetTasks = () => {
   return useQuery({
     queryKey: ['tasks'],
     queryFn: async () => {
-      const tasks = await getTasks();
-      return tasks;
+      return await getTasks();
     },
   });
 };

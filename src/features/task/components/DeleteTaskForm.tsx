@@ -1,23 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import { useDeleteTask } from '../../../entities/task/useDeleteTask';
 import { Button } from '../../../shared/components/ui/button';
-import { useTasksStore } from '../store/taskStore';
+import { ITaskFormProps } from '../../../shared/types/taskTypes';
 
-const DeleteTaskForm = () => {
-  const { currentTask, setCurrentTask } = useTasksStore();
+const DeleteTaskForm = ({ task, setDialogOpen }: ITaskFormProps) => {
   const { mutateAsync: deleteTask, isPending, isError } = useDeleteTask();
-  const [error, setError] = useState<string | null>(null);
 
-  if (!currentTask) return null;
-
-  const { id } = currentTask;
+  const { id } = task;
 
   const handleDeleteTask = async () => {
     try {
       await deleteTask(id);
-      setCurrentTask(null);
+      setDialogOpen(false);
     } catch (error) {
       throw new Error('Failed to delete task. Please try again.');
     }
@@ -31,16 +26,12 @@ const DeleteTaskForm = () => {
     );
   }
 
-  if (error) {
-    return <p className="text-red-500">{error}</p>;
-  }
-
   return (
     <div className="flex gap-2">
       <Button disabled={isPending} variant="ghost" onClick={handleDeleteTask}>
         Yes
       </Button>
-      <Button disabled={isPending} onClick={() => setCurrentTask(null)}>
+      <Button disabled={isPending} onClick={() => setDialogOpen(false)}>
         No
       </Button>
     </div>

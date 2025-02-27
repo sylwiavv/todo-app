@@ -1,10 +1,9 @@
 import { Circle, Pencil, Square, SquareCheckBig, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ITask } from '../../../shared';
 import DialogWrapper from '../../../shared/components/DialogWrapper/DialogWrapper';
 import { TooltipWrapper } from '../../../shared/components/TooltipWrapper/TooltipWrapper';
 import { Button } from '../../../shared/components/ui/button';
-import { useTasksStore } from '../store/taskStore';
 import CompletedTaskForm from './CompleteTaskForm';
 import DeleteTaskForm from './DeleteTaskForm';
 import TaskEditForm from './EditTaskForm';
@@ -13,26 +12,16 @@ import Task from './Task';
 
 const TaskItem = (task: ITask) => {
   const { title, description, createdAt, completed } = task;
-  const { currentTask, setCurrentTask } = useTasksStore();
 
-  const [dialogOpen, setDialogOpen] = useState<null | IDialogType | boolean>(
-    null
-  );
+  const [dialogOpen, setDialogOpen] = useState<IDialogType | boolean>(false);
 
   type IDialogType = 'deleteTask' | 'editTask' | 'completeTask';
 
   const handleDialogOpen = (dialogType: IDialogType) => {
     if (dialogType) {
-      setCurrentTask(task);
       setDialogOpen(dialogType);
     }
   };
-
-  useEffect(() => {
-    if (currentTask) return;
-
-    setDialogOpen(false);
-  }, [currentTask]);
 
   return (
     <div className="bg-task rounded-xl p-2 sm:p-4">
@@ -91,7 +80,7 @@ const TaskItem = (task: ITask) => {
               open={dialogOpen === 'deleteTask'}
               setOpen={setDialogOpen}
             >
-              <DeleteTaskForm />
+              <DeleteTaskForm task={task} setDialogOpen={setDialogOpen} />
             </DialogWrapper>
 
             <DialogWrapper
@@ -100,7 +89,7 @@ const TaskItem = (task: ITask) => {
               open={dialogOpen === 'editTask'}
               setOpen={setDialogOpen}
             >
-              <TaskEditForm />
+              <TaskEditForm task={task} setDialogOpen={setDialogOpen} />
             </DialogWrapper>
 
             <DialogWrapper
@@ -109,7 +98,7 @@ const TaskItem = (task: ITask) => {
               open={dialogOpen === 'completeTask'}
               setOpen={setDialogOpen}
             >
-              <CompletedTaskForm />
+              <CompletedTaskForm task={task} setDialogOpen={setDialogOpen} />
             </DialogWrapper>
           </div>
         </div>
