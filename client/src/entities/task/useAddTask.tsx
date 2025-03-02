@@ -9,7 +9,7 @@ export const addTask = async (task: ITask) => {
 
   const response = await fetch(`${BACKEND_BASE_URL}/tasks`, {
     method: 'POST',
-    headers: { HEADER_APPLICATION_JSON },
+    headers: HEADER_APPLICATION_JSON,
     body: JSON.stringify(task),
   });
 

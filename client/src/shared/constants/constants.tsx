@@ -1,1 +1,1 @@
-export const HEADER_APPLICATION_JSON = `'Content-Type':'application/json'`;
+export const HEADER_APPLICATION_JSON = { 'Content-Type': 'application/json' };

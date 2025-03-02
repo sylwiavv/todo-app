@@ -27,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "client/src/shared/components/TooltipWrapper"
+    "src/shared/components/TooltipWrapper"
   ],
-  "exclude": ["client/node_modules"]
+  "exclude": ["node_modules"]
 }
