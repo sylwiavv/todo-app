@@ -1,1 +1,1 @@
-export const BACKEND_BASE_URL = 'www.todo-app-backen22.vercel.app';
+export const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
