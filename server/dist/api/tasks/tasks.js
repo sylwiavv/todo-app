@@ -14,12 +14,17 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 function handler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const tasks = yield prisma.task.findMany();
-            return res.status(200).json({ data: tasks });
+        if (req.method === 'GET') {
+            try {
+                const tasks = yield prisma.task.findMany();
+                res.status(200).json({ data: tasks });
+            }
+            catch (error) {
+                res.status(500).json({ error: 'Failed to fetch tasks' });
+            }
         }
-        catch (error) {
-            return res.status(500).json({ error: "Internal Server Error" });
+        else {
+            res.status(405).json({ error: 'Method Not Allowed' });
         }
     });
 }
