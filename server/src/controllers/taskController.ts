@@ -1,16 +1,12 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-const prisma = new PrismaClient();
+import { prisma } from "../database";
 
-// ----------------------------------
-exports.getTasks = async (req: Request, res: Response) => {
+export const getTasks = async (req: Request, res: Response): Promise<void> => {
   try {
-    const managers = await prisma.task.findMany();
-    return res.status(200).json({ data: managers });
+    const tasks = await prisma.task.findMany();
+    res.status(200).json({ data: {tasks} }); 
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: { status: 500, message: "Internal Server Error" } });
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong!" });
   }
 };
-

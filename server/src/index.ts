@@ -1,30 +1,13 @@
-const port = 9001; 
-import cors from "cors";
-import express from 'express';
-import path from 'path';
+import express from "express";
+import { router } from "./routes/taskRoutes";
 
 const app = express();
+const port = process.env.PORT || 9001;
+
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, '..', 'client', '.next')));
+app.use(router);
 
-// ------------------------------
-app.use("/tasks", require("./routes/taskRoute"));
-// ------------------------------
-
-app.use(cors({
-    origin: '*', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
-  }));
-
-// app.use(
-//   cors({
-//     origin: ["https://todo-app-one-pearl-43.vercel.app"],
-//     methods: ["POST", "GET", "PATCH"],
-//   }),
-// );
-
-// app.listen(port, () => {
-//   console.log(`App is listening on dd ${port}`);
-// });
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
