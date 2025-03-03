@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { VercelRequest, VercelResponse } from "@vercel/node";
+import { allowCors } from '../utils/allowCors';
 
 const prisma = new PrismaClient();
 
@@ -16,4 +17,4 @@ const getAllTasks = async (req: VercelRequest, res: VercelResponse) => {
   }
 }
 
-export default getAllTasks
+export default allowCors(getAllTasks);
