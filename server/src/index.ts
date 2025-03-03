@@ -2,7 +2,7 @@ const express = require("express");
 import { router } from "./routes/taskRoutes";
 
 const app = express();
-const port = process.env.PORT || 9001;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
