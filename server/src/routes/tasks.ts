@@ -8,6 +8,7 @@ const router = Router();
 router.get("/", async (req, res) => {
   const tasks = await prisma.task.findMany();
   res.json(tasks);
+  
 });
 
 router.post("/", async (req, res) => {
