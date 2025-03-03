@@ -5,5 +5,5 @@
     "target": "ES6",
     "strict": true
   },
-  "include": ["src"]
+  "include": ["src", "api"]
 }
