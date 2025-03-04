@@ -15,11 +15,9 @@ export const addTask = async (task: ITask) => {
     body: JSON.stringify(task),
   });
 
-  // if (!response.ok) {
-  //   throw new Error('Failed to add task');
-  // }
-
-  console.log(response, 'task');
+  if (!response.ok) {
+    throw new Error('Failed to add task');
+  }
 
   return response.json();
 };

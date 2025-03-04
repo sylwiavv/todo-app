@@ -7,12 +7,12 @@ export const getTasks = async (): Promise<ITask[]> => {
     throw new Error('BACKEND_BASE_URL is not defined');
   }
 
-  const response = await fetch(
-    `https://todo-app-backend-3-git-main-sylwiavvs-projects.vercel.app/tasks`,
-    {
-      method: 'GET',
-    }
-  );
+  const response = await fetch(`${BACKEND_BASE_URL}/tasks`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
   if (!response.ok) {
     throw new Error('Failed to fetch tasks');

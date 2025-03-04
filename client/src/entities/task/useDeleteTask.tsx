@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { BACKEND_BASE_URL, HEADER_APPLICATION_JSON, ITask } from '../../shared';
+import { BACKEND_BASE_URL, ITask } from '../../shared';
 
 export const useDeleteTask = () => {
   const queryClient = useQueryClient();
@@ -11,7 +11,9 @@ export const useDeleteTask = () => {
 
     const response = await fetch(`${BACKEND_BASE_URL}/tasks/${id}`, {
       method: 'DELETE',
-      headers: { HEADER_APPLICATION_JSON },
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     if (!response.ok) {

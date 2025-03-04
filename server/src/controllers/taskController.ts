@@ -37,3 +37,75 @@ export const addTask = async (req: Request, res: Response): Promise<any> => {
     res.status(500).json({ error: 'Something went wrong!' });
   }
 };
+
+export const deleteTask = async (req: Request, res: Response): Promise<any> => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ error: 'Task ID is required' });
+  }
+
+  try {
+    await prisma.task.delete({
+      where: { id },
+    });
+    res.status(200).json({ message: 'Task deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong!' });
+  }
+};
+
+export const updateTask = async (req: Request, res: Response): Promise<any> => {
+  const { id } = req.params;
+  const { title, description } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ error: 'Task ID is required' });
+  }
+
+  try {
+    const updatedTask = await prisma.task.update({
+      where: { id },
+      data: {
+        title,
+        description,
+      },
+    });
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong!' });
+  }
+};
+
+export const toggleTaskCompletion = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ error: 'Task ID is required' });
+  }
+
+  try {
+    const task = await prisma.task.findUnique({
+      where: { id },
+    });
+
+    if (!task) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+
+    const updatedTask = await prisma.task.update({
+      where: { id },
+      data: { completed: !task.completed },
+    });
+
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong!' });
+  }
+};
