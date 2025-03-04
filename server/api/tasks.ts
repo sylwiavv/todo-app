@@ -60,7 +60,7 @@ const deleteTask = async (req: VercelRequest, res: VercelResponse) => {
 // --------------------------------------------------------------------
 const updateTask = async (req: VercelRequest, res: VercelResponse) => {
   const { id } = req.query;
-  const { title, description } = req.body;
+  const { title, description, createdAt } = req.body;
 
   if (!id || typeof id !== 'string') {
     return res.status(400).json({ error: 'Invalid task ID' });
@@ -70,6 +70,7 @@ const updateTask = async (req: VercelRequest, res: VercelResponse) => {
     const updatedTask = await prisma.task.update({
       where: { id },
       data: {
+        createdAt,
         title,
         description,
       },
@@ -87,6 +88,7 @@ const toggleTaskCompletion = async (
   res: VercelResponse
 ) => {
   const { id } = req.query;
+  const { completed } = req.body;
 
   if (!id || typeof id !== 'string') {
     return res.status(400).json({ error: 'Invalid task ID' });
@@ -101,7 +103,7 @@ const toggleTaskCompletion = async (
 
     const updatedTask = await prisma.task.update({
       where: { id },
-      data: { completed: !task.completed },
+      data: { completed },
     });
 
     return res.status(200).json({ status: 200, data: updatedTask });

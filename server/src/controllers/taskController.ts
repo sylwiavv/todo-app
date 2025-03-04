@@ -58,7 +58,7 @@ export const deleteTask = async (req: Request, res: Response): Promise<any> => {
 
 export const updateTask = async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
-  const { title, description } = req.body;
+  const { title, description, createdAt } = req.body;
 
   if (!id) {
     return res.status(400).json({ error: 'Task ID is required' });
@@ -68,6 +68,7 @@ export const updateTask = async (req: Request, res: Response): Promise<any> => {
     const updatedTask = await prisma.task.update({
       where: { id },
       data: {
+        createdAt,
         title,
         description,
       },
@@ -84,6 +85,7 @@ export const toggleTaskCompletion = async (
   res: Response
 ): Promise<any> => {
   const { id } = req.params;
+  const { completed } = req.body;
 
   if (!id) {
     return res.status(400).json({ error: 'Task ID is required' });
@@ -100,7 +102,7 @@ export const toggleTaskCompletion = async (
 
     const updatedTask = await prisma.task.update({
       where: { id },
-      data: { completed: !task.completed },
+      data: { completed },
     });
 
     res.status(200).json(updatedTask);
