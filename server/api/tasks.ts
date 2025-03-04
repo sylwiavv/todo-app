@@ -124,11 +124,14 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
       return deleteTask(req, res);
 
     case 'PATCH':
-      if (req.query.id && req.body.title) {
+      if (req.query.id && (req.body.title || req.body.description)) {
         return updateTask(req, res);
-      } else if (req.query.id) {
+      }
+
+      if (req.query.id && req.body.completed !== undefined) {
         return toggleTaskCompletion(req, res);
       }
+
       return res.status(400).json({ error: 'Invalid request format' });
 
     default:

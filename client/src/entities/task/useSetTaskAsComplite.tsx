@@ -16,7 +16,7 @@ export const useSetTaskAsCompleted = () => {
       },
       body: JSON.stringify({
         ...task,
-        completed: Boolean(task.completed),
+        completed: task.completed,
       }),
     });
 
