@@ -60,7 +60,7 @@ const deleteTask = async (req: VercelRequest, res: VercelResponse) => {
 // --------------------------------------------------------------------
 const updateTask = async (req: VercelRequest, res: VercelResponse) => {
   const { id } = req.query;
-  const { title, description, createdAt } = req.body;
+  const { title, description } = req.body;
 
   if (!id || typeof id !== 'string') {
     return res.status(400).json({ error: 'Invalid task ID' });
@@ -70,7 +70,6 @@ const updateTask = async (req: VercelRequest, res: VercelResponse) => {
     const updatedTask = await prisma.task.update({
       where: { id },
       data: {
-        createdAt,
         title,
         description,
       },
