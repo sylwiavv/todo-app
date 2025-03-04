@@ -20,6 +20,8 @@ export const useSetTaskAsCompleted = () => {
       }),
     });
 
+    console.log(task, 'TASK');
+
     if (!response.ok) {
       throw new Error('Failed to edit task');
     }

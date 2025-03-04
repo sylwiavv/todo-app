@@ -106,7 +106,7 @@ const toggleTaskCompletion = async (
       data: { completed },
     });
 
-    return res.status(200).json({ status: 200, data: updatedTask });
+    return res.status(200).json(updatedTask);
   } catch (error) {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
