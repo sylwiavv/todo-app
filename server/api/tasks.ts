@@ -60,7 +60,7 @@ const deleteTask = async (req: VercelRequest, res: VercelResponse) => {
 // --------------------------------------------------------------------
 const updateTask = async (req: VercelRequest, res: VercelResponse) => {
   const { id } = req.query;
-  const { title, description, completed } = req.body;
+  const { title, description } = req.body;
 
   if (!id || typeof id !== 'string') {
     return res.status(400).json({ error: 'Invalid task ID' });
@@ -72,7 +72,6 @@ const updateTask = async (req: VercelRequest, res: VercelResponse) => {
       data: {
         title,
         description,
-        completed,
       },
     });
 
