@@ -3,7 +3,7 @@ import {
   addTask,
   deleteTask,
   getTasks,
-  toggleTaskCompletion,
+  toggleTaskComplete,
   updateTask,
 } from '../controllers/taskController';
 
@@ -14,6 +14,6 @@ router.post('/tasks', addTask);
 
 router.delete('/tasks/:id', deleteTask);
 router.patch('/tasks/:id', updateTask);
-router.patch('/tasks/:id/complited', toggleTaskCompletion);
+router.patch('/tasks/:id/completed', toggleTaskComplete);
 
 export { router };

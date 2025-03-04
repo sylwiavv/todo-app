@@ -82,10 +82,7 @@ const updateTask = async (req: VercelRequest, res: VercelResponse) => {
 };
 
 // --------------------------------------------------------------------
-const toggleTaskCompletion = async (
-  req: VercelRequest,
-  res: VercelResponse
-) => {
+const toggleTaskComplete = async (req: VercelRequest, res: VercelResponse) => {
   const { id } = req.query;
   const { completed } = req.body;
 
@@ -129,7 +126,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
       }
 
       if (req.query.id && req.body.completed !== undefined) {
-        return toggleTaskCompletion(req, res);
+        return toggleTaskComplete(req, res);
       }
 
       return res.status(400).json({ error: 'Invalid request format' });

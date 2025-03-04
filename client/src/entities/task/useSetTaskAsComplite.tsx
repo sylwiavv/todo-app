@@ -10,7 +10,7 @@ export const useSetTaskAsCompleted = () => {
     }
 
     const response = await fetch(
-      `${BACKEND_BASE_URL}/tasks/${task.id}/completion`,
+      `${BACKEND_BASE_URL}/tasks/${task.id}/completed`,
       {
         method: 'PATCH',
         headers: {
@@ -24,10 +24,12 @@ export const useSetTaskAsCompleted = () => {
     );
 
     if (!response.ok) {
-      throw new Error('Failed to edit task');
+      throw new Error('Failed to fetch tasks');
     }
 
-    return response.json();
+    const data = await response.json();
+
+    return data;
   };
 
   return useMutation({

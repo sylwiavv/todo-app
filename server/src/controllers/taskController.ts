@@ -80,7 +80,7 @@ export const updateTask = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export const toggleTaskCompletion = async (
+export const toggleTaskComplete = async (
   req: Request,
   res: Response
 ): Promise<any> => {
