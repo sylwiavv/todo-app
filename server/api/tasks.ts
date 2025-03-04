@@ -8,7 +8,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'GET') {
     try {
       const tasks = await prisma.task.findMany();
-      res.status(200).json({ data: tasks });
+      res.status(200).json(tasks);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch tasks' });
     }
