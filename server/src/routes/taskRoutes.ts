@@ -14,6 +14,6 @@ router.post('/tasks', addTask);
 
 router.delete('/tasks/:id', deleteTask);
 router.patch('/tasks/:id', updateTask);
-router.patch('/tasks/:id/completion', toggleTaskCompletion);
+router.patch('/tasks/:id/complited', toggleTaskCompletion);
 
 export { router };

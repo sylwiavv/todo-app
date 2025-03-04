@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { console } from 'inspector';
 import { prisma } from '../database';
 
 export const getTasks = async (req: Request, res: Response): Promise<void> => {

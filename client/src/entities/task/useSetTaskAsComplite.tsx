@@ -9,16 +9,19 @@ export const useSetTaskAsCompleted = () => {
       throw new Error('BACKEND_BASE_URL is not defined');
     }
 
-    const response = await fetch(`${BACKEND_BASE_URL}/tasks/${task.id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...task,
-        completed: task.completed,
-      }),
-    });
+    const response = await fetch(
+      `${BACKEND_BASE_URL}/tasks/${task.id}/completion`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...task,
+          completed: task.completed,
+        }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error('Failed to edit task');

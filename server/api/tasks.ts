@@ -75,7 +75,7 @@ const updateTask = async (req: VercelRequest, res: VercelResponse) => {
       },
     });
 
-    return res.status(200).json(updateTask);
+    return res.status(200).json(updatedTask);
   } catch (error) {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
