@@ -11,26 +11,24 @@ export const getTasks = async (): Promise<ITask[]> => {
     `https://todo-app-backend-3-git-main-sylwiavvs-projects.vercel.app/tasks`,
     {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
     }
   );
-
-  console.log(response, 'HELLO');
 
   if (!response.ok) {
     throw new Error('Failed to fetch tasks');
   }
 
-  return response.json();
+  const data = await response.json();
+
+  return data;
 };
 
 export const useGetTasks = () => {
   return useQuery({
     queryKey: ['tasks'],
     queryFn: async () => {
-      return await getTasks();
+      const tasks = await getTasks();
+      return tasks;
     },
   });
 };

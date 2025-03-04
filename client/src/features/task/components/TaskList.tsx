@@ -4,7 +4,9 @@ import TaskItem from './TaskItem';
 
 const TaskList = () => {
   const { data: tasks, isPending, isError } = useGetTasks();
+  const data = useGetTasks();
 
+  console.log(tasks, 'data');
   if (isPending) return <p>Loading tasks...</p>;
 
   if (!tasks?.length && !isError) {
