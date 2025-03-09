@@ -9,6 +9,10 @@ export const useDeleteTask = () => {
       throw new Error('BACKEND_BASE_URL is not defined');
     }
 
+    if (!id) {
+      throw new Error('ID is required to delete the task');
+    }
+
     const response = await fetch(`${BACKEND_BASE_URL}/tasks/${id}`, {
       method: 'DELETE',
       headers: {
@@ -28,8 +32,8 @@ export const useDeleteTask = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
-    onError: (error: Error) => {
-      console.error('Error deleting task:', error.message);
-    },
+    // onError: (error: Error) => {
+    //   console.error('Error deleting task:', error.message);
+    // },
   });
 };

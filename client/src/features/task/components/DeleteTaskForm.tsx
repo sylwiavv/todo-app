@@ -5,13 +5,18 @@ import { Button } from '../../../shared/components/ui/button';
 import { ITaskFormProps } from '../../../shared/types/taskTypes';
 
 const DeleteTaskForm = ({ task, setDialogOpen }: ITaskFormProps) => {
-  const { mutateAsync: deleteTask, isPending, isError } = useDeleteTask();
+  const {
+    mutateAsync: deleteTask,
+    isPending,
+    isError,
+    error,
+  } = useDeleteTask();
 
   const { id } = task;
 
   const handleDeleteTask = async () => {
     try {
-      await deleteTask(id);
+      await deleteTask(undefined);
       setDialogOpen(false);
     } catch (error) {
       throw new Error('Failed to delete task. Please try again.');
@@ -21,6 +26,8 @@ const DeleteTaskForm = ({ task, setDialogOpen }: ITaskFormProps) => {
   if (isError) {
     return (
       <p className="text-red-500">
+        {' '}
+        {console.log(error)}
         An error occurred. Please refresh the page.
       </p>
     );

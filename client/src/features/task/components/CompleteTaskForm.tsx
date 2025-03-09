@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { useSetTaskAsCompleted } from '../../../entities/task/useSetTaskAsComplite';
+import { useSetTaskAsCompleted } from '../../../entities/task/useSetTaskAsCompleted';
 import { ITask } from '../../../shared';
 import { Button } from '../../../shared/components/ui/button';
 import {

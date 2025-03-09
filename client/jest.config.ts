@@ -6,9 +6,6 @@ const createJestConfig = nextJest({
 });
 
 const config: Config = {
-  preset: 'ts-jest',
-  testEnvironment: 'jsdom',
-
   clearMocks: true,
   collectCoverage: true,
   coverageDirectory: 'coverage',
@@ -21,21 +18,16 @@ const config: Config = {
   },
 
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
-  },
+
   transformIgnorePatterns: ['<rootDir>/node_modules/(?!(lucide-react)/)'],
   moduleNameMapper: {
     '^lucide-react$':
       '<rootDir>/node_modules/lucide-react/dist/esm/lucide-react.js',
   },
   preset: 'ts-jest',
-  testEnvironment: 'jsdom', // Potrzebne dla Reacta
+  testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest', // Obsługa TypeScript + JSX
-  },
-  moduleNameMapper: {
-    '\\.(css|scss)$': 'identity-obj-proxy', // Mockowanie styli
+    '^.+\\.(ts|tsx)$': 'ts-jest',
   },
 };
 

@@ -33,8 +33,8 @@ export const useEditTask = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
-    onError: (error: Error) => {
-      console.error('Error editing task:', error.message);
-    },
+    // onError: (error: Error) => {
+    //   console.error('Error editing task:', error.message);
+    // },
   });
 };
