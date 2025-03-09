@@ -29,6 +29,14 @@ const config: Config = {
     '^lucide-react$':
       '<rootDir>/node_modules/lucide-react/dist/esm/lucide-react.js',
   },
+  preset: 'ts-jest',
+  testEnvironment: 'jsdom', // Potrzebne dla Reacta
+  transform: {
+    '^.+\\.(ts|tsx)$': 'ts-jest', // Obsługa TypeScript + JSX
+  },
+  moduleNameMapper: {
+    '\\.(css|scss)$': 'identity-obj-proxy', // Mockowanie styli
+  },
 };
 
 module.exports = createJestConfig(config);
