@@ -2,36 +2,33 @@ import type { Config } from 'jest';
 import nextJest from 'next/jest';
 
 const createJestConfig = nextJest({
-  dir: './', // Określamy katalog główny projektu
+  dir: './',
 });
 
 const config: Config = {
-  preset: 'ts-jest', // Używamy presetts 'ts-jest' do TypeScript
-  testEnvironment: 'jsdom', // Środowisko testowe dla React
-  setupFilesAfterEnv: [
-    './jest.setup.ts',
-    'react-intersection-observer/test-utils',
-  ],
+  preset: 'ts-jest',
+  testEnvironment: 'jsdom',
+
   clearMocks: true,
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1', // Mapowanie ścieżek dla Next.js
-    '^lucide-react$':
-      '<rootDir>/node_modules/lucide-react/dist/esm/lucide-react.js', // Używamy pełnej ścieżki dla lucide-react
-  },
 
   globals: {
     'ts-jest': {
-      tsconfig: './tsconfig.json', // Ścieżka do pliku tsconfig.json
+      tsconfig: './tsconfig.json',
     },
   },
-  transformIgnorePatterns: ['node_modules/(?!(lucide-react)/)'],
+
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   transform: {
-    '^.+\\.(js|jsx|ts|tsx|mjs)$': 'babel-jest',
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
+  transformIgnorePatterns: ['<rootDir>/node_modules/(?!(lucide-react)/)'],
+  moduleNameMapper: {
+    '^lucide-react$':
+      '<rootDir>/node_modules/lucide-react/dist/esm/lucide-react.js',
   },
 };
 
-// Eksportujemy finalną konfigurację
 module.exports = createJestConfig(config);

@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import Task from './Task';
 import React from 'react';
-import '@testing-library/jest-dom';
 
 describe('Task Component', () => {
   const task = {
