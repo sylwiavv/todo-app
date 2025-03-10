@@ -5,12 +5,7 @@ import { Button } from '../../../shared/components/ui/button';
 import { ITaskFormProps } from '../../../shared/types/taskTypes';
 
 const DeleteTaskForm = ({ task, setDialogOpen }: ITaskFormProps) => {
-  const {
-    mutateAsync: deleteTask,
-    isPending,
-    isError,
-    error,
-  } = useDeleteTask();
+  const { mutateAsync: deleteTask, isPending, isError } = useDeleteTask();
 
   const { id } = task;
 
@@ -26,8 +21,6 @@ const DeleteTaskForm = ({ task, setDialogOpen }: ITaskFormProps) => {
   if (isError) {
     return (
       <p className="text-red-500">
-        {' '}
-        {console.log(error)}
         An error occurred. Please refresh the page.
       </p>
     );
