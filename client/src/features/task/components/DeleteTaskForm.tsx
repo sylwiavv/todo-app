@@ -16,7 +16,7 @@ const DeleteTaskForm = ({ task, setDialogOpen }: ITaskFormProps) => {
 
   const handleDeleteTask = async () => {
     try {
-      await deleteTask(undefined);
+      await deleteTask(id);
       setDialogOpen(false);
     } catch (error) {
       throw new Error('Failed to delete task. Please try again.');
