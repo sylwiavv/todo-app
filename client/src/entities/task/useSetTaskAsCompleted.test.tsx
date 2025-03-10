@@ -2,6 +2,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useSetTaskAsCompleted } from './useSetTaskAsCompleted';
 
+
 const createWrapper = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
